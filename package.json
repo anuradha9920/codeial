@@ -14,5 +14,13 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anuradha9920/codeial.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anuradha9920/codeial/issues"
+  },
+  "homepage": "https://github.com/anuradha9920/codeial#readme"
 }
