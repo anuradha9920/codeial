@@ -1,5 +1,8 @@
+//importing mongoose package
 const mongoose = require('mongoose');
 
+
+//connecting mongoose databse
 mongoose.connect('mongodb://localhost/codeial_development');
 
 
