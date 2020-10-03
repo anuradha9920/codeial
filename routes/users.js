@@ -14,5 +14,8 @@ router.get('/sign-in',usersController.signIn);
 
 router.post('/create',usersController.create);
 
+router.post('/create-session',usersController.createSession);
+
+router.get('/sign-out',usersController.signOut);
 //router action when user fills the form to get the 
 module.exports=router;
