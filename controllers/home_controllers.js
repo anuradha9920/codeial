@@ -1,7 +1,48 @@
+const Post=require('../models/post');
+
 module.exports.home = (req,res)=>{
-    return res.render('home',{
-        title:"Home"
+    // if(req.isAuthenticated()){
+    //     Post.find({user:req.user._id},(err,feedPost)=>{
+    //         if(err){
+    //             console.log("Error in fetching posts from db");
+    //             return;
+    //         }
+    //        return res.render('home',{ 
+    //            title:"Home",
+    //            posts: feedPost
+    //        });
+    //    });
+    // }
+    // Post.find({},(err,feedPost)=>{
+    //     if(err){
+    //         console.log("Error in fetching posts from db");
+    //         return;
+    //     }
+    //     return res.render('home',{ 
+    //         title:"Home",
+    //        posts: feedPost
+    //    });
+    // });
+    // return res.render('home',{
+    //     title:"Home",
+    //     posts: 
+    // });
+
+    //populate the user of each post
+    Post.find({})
+    .populate('user')
+    .populate({
+        path:'comments',
+        populate:{
+            path: 'user'
+        }
+    })
+    .exec((err,posts)=>{
+        return res.render('home',{
+            title:"Home",
+            posts: posts
+        });
     });
-}; 
+};
 
 // module.exports.actionName = (request,response)=>{};

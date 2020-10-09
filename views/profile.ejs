@@ -7,3 +7,20 @@
 
 <p><%= user.name %></p>
 <p> <%= user.email %> </p>
+<div class="profile_wall">
+    <h1>Your Posts</h1>
+    <% for(let i of posts){%>
+        <li>
+            <%= i.content %>
+            <h2>comments</h2>
+            <ul>
+                <% for(comment of i.comments){ %>
+                    <li>
+                        <%= comment.content %> by <%= comment.user.name %> 
+                    </li>
+                <% } %>      
+            </ul>
+        </li> 
+
+    <% } %>
+</div>

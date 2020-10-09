@@ -1,10 +1,26 @@
 const User = require('../models/user');
-
+const Post=require('../models/post')
 
 module.exports.profile = (req,res)=>{
-    return res.render('profile',{
-        title:"Anuradha"
+    Post.find({user:req.user._id})
+    .populate({
+        path:'comments',
+        populate:{
+            path:'user'
+        }
+    }).exec((err,feedPost)=>{
+        if(err){
+            console.log("Error in fetching posts from db");
+            return;
+        }
+        return res.render('profile',{ 
+           title:req.user.name,
+           posts: feedPost
+        });
     });
+    // return res.render('profile',{
+    //     title:"Anuradha"
+    // });
 };
 
 // Render the sign up page
