@@ -1,36 +1,49 @@
 <link rel="stylesheet" href="/css/user_profile.css">
-<%= title %>
-
-<h1>
-    Codeial/Profile Page
-</h1>
-
-<p><%= user.name %></p>
-<p> <%= user.email %> </p>
-<div class="profile_wall">
-    <h1>Your Posts</h1>
-    <% for(let i of posts){%>
-        <li>
-            <%= i.content %>
-            <small>
-                <a href="/posts/destroy/<%= i.id %>">delete</a>
-            </small>
-            <h2>comments</h2>
-            <ul>
-                <% for(comment of i.comments){ %>
-                    <li>
-                        <p>
-                            <% if(locals.user){ %>
-                                <small>
-                                    <a href="/comments/destroy/<%= comment.id %>">X</a>
-                                </small>
-                            <% } %> 
-                        </p>
-                        <%= comment.content %> by <%= comment.user.name %> 
-                    </li>
-                <% } %>      
-            </ul>
-        </li> 
-
-    <% } %>
+<div id="profile-container">
+    
+    <div id="user-posts">
+        <h1>Posts</h1>
+        <% for(let post of profile_user.posts){%>
+            <li>
+                <%= post.content %>
+                <small>
+                    <% if(locals.user && locals.user.id==profile_user.id){ %> 
+                        <a href="/posts/destroy/<%= post.id %>">&nbsp;<i class="fas fa-trash"></i></a>
+                    <% } %>
+                </small>
+                <h2>comments</h2>
+                <ul>
+                    <% for(let comment of post.comments){ %>
+                        <li>
+                            <p>
+                                <%= comment.content %> by <%= comment.user.name %> 
+                                <% if(locals.user && (locals.user.id==profile_user.id || user.id==comment.user.id)){ %>
+                                    <small>
+                                        <a href="/comments/destroy/<%= comment.id %>">X</a>
+                                    </small>
+                                <% } %>
+                            </p>
+                            
+                        </li>
+                    <% } %>   
+                </ul> 
+            </li> 
+    
+        <% } %>
+    </div> 
+    <div id="user-info">
+        
+        <% if(user.id == profile_user.id){ %>
+            <h2>YOUR INFO</h2>
+            <form action="/users/update/<%= profile_user._id %>" method="POST">
+                <input type="text" name="name" placeholder="your name..." value="<%= profile_user.name %>" required>
+                <input type="email" name="email" placeholder="Your Email" value="<%= profile_user.email %>" required>
+                <input type="submit" value="Update">
+            </form>
+        <% }else{ %>
+            <h2>USER PROFILE INFO</h2>
+            <p><%= profile_user.name %></p>
+            <p><%= profile_user.email %></p>
+        <% } %>
+    </div>
 </div>

@@ -22,7 +22,7 @@ module.exports.create = (req,res)=>{
                 //update
                 post.comments.push(comment);
                 post.save();
-                res.redirect('/');
+                return res.redirect('/');
             });
         }
     });

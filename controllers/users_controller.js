@@ -2,26 +2,37 @@ const User = require('../models/user');
 const Post=require('../models/post')
 
 module.exports.profile = (req,res)=>{
-    Post.find({user:req.user._id})
+    User.findById(req.params.id)
     .populate({
-        path:'comments',
+        path:'posts',
+        model: 'Post',
         populate:{
-            path:'user'
+            path:'comments',
+            model: 'Comment',
+            populate:{
+                path:'user',
+                model: 'User'
+            }
         }
-    }).exec((err,feedPost)=>{
-        if(err){
-            console.log("Error in fetching posts from db");
-            return;
-        }
-        return res.render('profile',{ 
-           title:req.user.name,
-           posts: feedPost
+    })
+    .exec((err,user)=>{
+        return res.render('profile',{
+            title: 'User Profile',
+            profile_user: user
         });
     });
-    // return res.render('profile',{
-    //     title:"Anuradha"
-    // });
+    
 };
+
+module.exports.update = (req,res)=>{
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id,req.body,(err,user)=>{
+            return res.redirect('back');
+        });
+    }else{
+        return res.status(401).send('Unauthorized');
+    }
+}
 
 // Render the sign up page
 module.exports.signUp = (req,res)=>{

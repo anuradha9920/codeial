@@ -1,12 +1,10 @@
 <li>
     <p>
+        <%= comment.content %> by <%= comment.user.name %>
         <% if(locals.user && locals.user.id==comment.user.id){ %>
-            <small>
+            <small></small>
                 <a href="/comments/destroy/<%= comment.id %>">X</a>
             </small>
         <% } %>      
     </p>
-    <h6><%= comment.content %><br>
-        by <%= comment.user.name %>
-    </h6>  
 </li>

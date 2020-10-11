@@ -5,8 +5,8 @@ const passport = require('passport');
 const usersController = require('../controllers/users_controller');
 
 //routing action for profile page controller named userController has function named profile which renders page for the profile
-router.get('/profile',passport.checkAuthentication,usersController.profile);
-
+router.get('/profile/:id',passport.checkAuthentication,usersController.profile);
+router.post('/update/:id',passport.checkAuthentication,usersController.update);
 //router action for sign up page
 router.get('/sign-up',usersController.signUp);
 
