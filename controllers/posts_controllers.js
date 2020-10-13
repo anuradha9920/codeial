@@ -13,10 +13,11 @@ module.exports.create = async (req,res)=>{
             user.posts.push(post);
             user.save();
         }
-        return res.redirect('/');
+        req.flash('success','Post Published!');
+        return res.redirect('back');
     }catch(err){
-        console.log("Error  : ",err);
-        return;
+        req.flash('error',err);
+        return res.redirect('back');
     }
 };
 
@@ -33,9 +34,11 @@ module.exports.destroy = async (req,res)=>{
                 }
             });
         }
+        req.flash('success','Post and associated comments deleted');
         return res.redirect('back');
     }catch(err){
-        console.log("Error : ",err);
+        req.flash('error','you cannot delete this post');
+        return res.redirect('back');
     }
 };
 

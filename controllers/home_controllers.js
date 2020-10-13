@@ -19,8 +19,8 @@ module.exports.home = async (req,res)=>{
             all_users: users
         });
     }catch(err){
-        console.log("Error : ",err);
-        return;
+        req.flash('error',err);
+        return res.redirect('back');
     }
 };
 // module.exports.actionName = (request,response)=>{};

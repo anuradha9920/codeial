@@ -14,10 +14,12 @@ module.exports.create = async (req,res)=>{
             //update
             post.comments.push(comment);
             post.save();
-            return res.redirect('/');
+            req.flash('success','Comment Published!');
+            return res.redirect('back');
         }
     }catch(err){
-        console.log("ERROR : ",err);
+        req.flash('error','Unable to pulish comment');
+        return res.redirect('back');
     }
 };
 
@@ -29,8 +31,10 @@ module.exports.destroy = async (req,res)=>{
             comment.remove();
             let post = await Post.findByIdAndUpdate(postId,{$pull: {comments: req.params._id}});         
         }
+        req.flash('success',"Comment Deleted!");
         return res.redirect('back');
     }catch(err){
+        req.flash('error',"Cannot delete this Comment!");
         console.log("ERROR : ",err);
     }
 }

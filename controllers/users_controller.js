@@ -29,6 +29,7 @@ module.exports.update = async (req,res)=>{
     try{
         if(req.user.id == req.params.id){
             let user = await User.findByIdAndUpdate(req.params.id,req.body);
+            req.flash('success','Updated Successfully!');
             return res.redirect('back');
         }else{
             return res.status(401).send('Unauthorized');
@@ -43,6 +44,7 @@ module.exports.signUp = (req,res)=>{
     if(req.isAuthenticated()){
         return res.redirect('/users/profile');
     }
+    req.flash('success','Signed-up Successfully!');
     return res.render('user_sign_up',{
         title:"Codeial| Sign Up"
     });
@@ -74,12 +76,14 @@ module.exports.create = async (req,res)=>{
 
 //sign in and create session for the user
 module.exports.createSession = (req,res)=>{
+    req.flash('success','Logged in Successfully');
     return res.redirect('/');
 };
 
 //to destroy session log out
 module.exports.destroySession = (req,res)=>{
     req.logout();
+    req.flash('success','You have logged out');
     return res.redirect('/');
 };
 
